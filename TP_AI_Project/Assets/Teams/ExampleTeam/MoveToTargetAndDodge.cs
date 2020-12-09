@@ -7,7 +7,6 @@ namespace JabberMonkey
 {
 	public class MoveToTargetAndDodge : Action
 	{
-
 		public SharedString targetName;
 		private Vector3 target;
 		public SharedFloat arriveDistance = 0.2f;
@@ -31,10 +30,15 @@ namespace JabberMonkey
 			currentDistance = (playerTransform.position - target).magnitude;
 
 			//Basic Move
-			Vector3 diference = (target - playerTransform.position);
+			Vector3 diference = target - playerTransform.position;
 			float sign = (target.y < playerTransform.position.y) ? -1.0f : 1.0f;
 			targetOrientation = Vector2.Angle(Vector2.right, diference) * sign;
 			thrust = currentDistance;
+
+			float velocityAngle = Vector2.SignedAngle(diference, blackboard.myShip.Velocity);
+			Debug.Log("velocity angle: "+ velocityAngle+" target angle: "+ targetOrientation);
+
+			targetOrientation -= Mathf.Lerp(velocityAngle, 0, currentDistance/2 );
 
 			//Dodge Asteroids
 			RaycastHit2D hit;

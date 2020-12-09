@@ -22,7 +22,6 @@ namespace JabberMonkey
 			SpaceShip ship = GameManager.Instance.GetGameData().SpaceShips[blackBord.shipIndex];
 
 			RaycastHit2D hit2D = Physics2D.Raycast(ship.Position, ship.Velocity, distanceToCheck, 1 << 13);
-			Debug.DrawLine(ship.Position, ship.Position+ship.Velocity, Color.green);
 			if (hit2D)
 			{
 				blackBord.closestMine = hit2D.rigidbody.GetComponent<Mine>();
