@@ -9,7 +9,6 @@ namespace JabberMonkey
 	public class MineInFront : Conditional
 	{
 		public float distanceToCheck;
-		public float maxMineOffset;
 
 		BlackBordScipt blackBord = null;
 
@@ -20,17 +19,14 @@ namespace JabberMonkey
 
 		public override TaskStatus OnUpdate()
 		{
-			GameData data = GameManager.Instance.GetGameData();
-			SpaceShip ship = data.SpaceShips[blackBord.shipIndex];
-            foreach (Mine item in data.Mines)
-            {
-				float distance = (ship.Position - item.Position).magnitude;
-                if (distance < distanceToCheck)
-                {
-					Vector2 mineDirection = ship.transform.InverseTransformPoint(item.Position);
-					if (mineDirection.x > 0 && Mathf.Abs(mineDirection.y) < maxMineOffset)
-						return TaskStatus.Success;
-                }
+			SpaceShip ship = GameManager.Instance.GetGameData().SpaceShips[blackBord.shipIndex];
+
+			RaycastHit2D hit2D = Physics2D.Raycast(ship.Position, ship.Velocity, distanceToCheck, 1 << 13);
+			Debug.DrawLine(ship.Position, ship.Position+ship.Velocity, Color.green);
+			if (hit2D)
+			{
+				blackBord.closestMine = hit2D.rigidbody.GetComponent<Mine>();
+				return TaskStatus.Success;
 			}
 
 			return TaskStatus.Failure;
