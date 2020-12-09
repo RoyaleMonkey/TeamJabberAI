@@ -7,11 +7,14 @@ namespace ExampleTeam {
 
 	public class ExampleController : BaseSpaceShipController
 	{
-
+		private Blackboard _blackboard;
 		public InputData activeInputData;
+
 
 		public override void Initialize(SpaceShip spaceship, GameData data)
 		{
+			_blackboard = GetComponent<Blackboard>();
+			_blackboard.Initialize(spaceship, data);
 		}
 
 		public override InputData UpdateInput(SpaceShip spaceship, GameData data)
