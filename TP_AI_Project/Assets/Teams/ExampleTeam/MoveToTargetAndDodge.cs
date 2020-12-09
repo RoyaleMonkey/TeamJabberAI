@@ -31,7 +31,7 @@ namespace JabberMonkey
 			currentDistance = (playerTransform.position - target).magnitude;
 
 			//Basic Move
-			Vector3 diference = target - playerTransform.position;
+			Vector3 diference = (target - playerTransform.position);
 			float sign = (target.y < playerTransform.position.y) ? -1.0f : 1.0f;
 			targetOrientation = Vector2.Angle(Vector2.right, diference) * sign;
 			thrust = currentDistance;
