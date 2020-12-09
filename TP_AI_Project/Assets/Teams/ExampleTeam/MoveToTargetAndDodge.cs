@@ -3,22 +3,24 @@ using DoNotModify;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-namespace Monkey.Tasks
+namespace JabberMonkey
 {
 	public class MoveToTargetAndDodge : Action
 	{
 
 		public SharedString targetName;
-		private GameObject target;
+		private Vector3 target;
 		public SharedFloat arriveDistance = 0.2f;
 		private Transform playerTransform;
 		private float currentDistance;
 		private float targetOrientation;
 		private float thrust;
 		private Vector2 speed;
+		private BlackBordScipt blackboard;
 		public override void OnStart()
 		{
-			target = GameObject.Find(targetName.Value);
+			blackboard = GetComponent<BlackBordScipt>();
+			target = blackboard.targetPosition;
 			//targetOrientation = GameManager.Instance.GetGameData().SpaceShips[1].transform.rotation.z;
 		}
 
@@ -26,11 +28,11 @@ namespace Monkey.Tasks
 		{
 			playerTransform = GameManager.Instance.GetGameData().SpaceShips[1].transform;
 			speed = GameManager.Instance.GetGameData().SpaceShips[1].Velocity;
-			currentDistance = (playerTransform.position - target.transform.position).magnitude;
+			currentDistance = (playerTransform.position - target).magnitude;
 
 			//Basic Move
-			Vector3 diference = target.transform.position - playerTransform.position;
-			float sign = (target.transform.position.y < playerTransform.position.y) ? -1.0f : 1.0f;
+			Vector3 diference = target - playerTransform.position;
+			float sign = (target.y < playerTransform.position.y) ? -1.0f : 1.0f;
 			targetOrientation = Vector2.Angle(Vector2.right, diference) * sign;
 			thrust = currentDistance;
 
@@ -49,7 +51,8 @@ namespace Monkey.Tasks
             }
             
 
-			GetComponent<ExampleTeam.ExampleController>().activeInputData = new InputData(thrust, targetOrientation, false, false, false);
+			blackboard.trust = thrust;
+			blackboard.targetAngle = targetOrientation;
 			if (currentDistance < arriveDistance.Value)
 				return TaskStatus.Success;
 

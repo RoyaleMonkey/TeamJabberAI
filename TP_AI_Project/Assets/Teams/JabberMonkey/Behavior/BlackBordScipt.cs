@@ -31,6 +31,8 @@ namespace JabberMonkey
         [HideInInspector]
         public SpaceShip myShip;
 
+        public Vector3 targetPosition;
+
         private BehaviorTree behaviorTree;
 
         // Start is called before the first frame update
