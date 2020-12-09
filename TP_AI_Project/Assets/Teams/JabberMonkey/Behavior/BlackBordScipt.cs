@@ -37,6 +37,8 @@ namespace JabberMonkey
         void Awake()
         {
             behaviorTree = GetComponent<BehaviorTree>();
+            GameData gameData = GameManager.Instance.GetGameData();
+            myShip = gameData.SpaceShips[shipIndex];
         }
 
         // Update is called once per frame
