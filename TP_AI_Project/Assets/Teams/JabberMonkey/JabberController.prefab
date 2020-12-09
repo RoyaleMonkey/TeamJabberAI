@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 995883328052245445}
-  - component: {fileID: 6962921054947994555}
   - component: {fileID: -2434767163917324681}
   - component: {fileID: 3602763094370212128}
+  - component: {fileID: -1388187826874647169}
   m_Layer: 0
-  m_Name: ExampleTeamController
+  m_Name: JabberController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,18 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6962921054947994555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7672329417856911656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 475474c793411c141b86d28f8284abce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-2434767163917324681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +60,7 @@ MonoBehaviour:
       types:
       - BehaviorDesigner.Runtime.Tasks.EntryTask
       - BehaviorDesigner.Runtime.Tasks.Repeater
-      - FollowPlayer
+      - JabberMonkey.FollowPlayer
       parentIndex: ffffffff0000000001000000
       startIndex: 000000000a00000020000000
       variableStartIndex: 
@@ -106,3 +94,16 @@ MonoBehaviour:
   shouldShoot: 0
   shouldMine: 0
   shouldShock: 0
+  shipIndex: 0
+--- !u!114 &-1388187826874647169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7672329417856911656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8be37066c58d72042a3e76e203606db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
