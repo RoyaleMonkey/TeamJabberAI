@@ -9,9 +9,6 @@ namespace JabberMonkey
     public class BlackBordScipt : MonoBehaviour
     {
 
-        public bool shouldShootClosestMine;
-        public float shootOffest;
-
         [HideInInspector]
         public Vector3 enemyBackPosition;
         [HideInInspector]
@@ -47,23 +44,7 @@ namespace JabberMonkey
         {
             GameData gameData = GameManager.Instance.GetGameData();
 
-            FindClosestMine(gameData);
-
             enemyBackPosition = gameData.SpaceShips[1-shipIndex].transform.position + gameData.SpaceShips[0].transform.right * -1;
-        }
-
-        void FindClosestMine(GameData gameData)
-        {
-            float closestDistance = Mathf.Infinity;
-            foreach (Mine item in gameData.Mines)
-            {
-                float distance = (myShip.Position - item.Position).magnitude;
-                if (distance > closestDistance)
-                {
-                    closestDistance = distance;
-                    closestMine = item;
-                }
-            }
         }
 
         public void Initialize(SpaceShip spaceShip)
