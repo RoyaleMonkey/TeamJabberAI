@@ -9,7 +9,7 @@ namespace JabberMonkey
 	public class MineInFront : Conditional
 	{
 		public float distanceToCheck = 2;
-
+		public bool isChasing = false;
 		BlackBordScipt blackBord = null;
 
 		public override void OnAwake()
@@ -25,11 +25,19 @@ namespace JabberMonkey
 			if (hit2D)
 			{
 				Mine mine = hit2D.rigidbody.GetComponent<Mine>();
-				if(mine.IsActive)
+				if(!isChasing)
+                {
+					if (mine.IsActive)
+					{
+						blackBord.closestMine = mine;
+						return TaskStatus.Success;
+					}
+				}
+				else
                 {
 					blackBord.closestMine = mine;
-					return TaskStatus.Success;
 				}
+				
 			}
 
 			return TaskStatus.Failure;
