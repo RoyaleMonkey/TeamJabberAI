@@ -30,12 +30,13 @@ namespace JabberMonkey
 
         public Vector3 targetPosition;
 
-        private BehaviorTree behaviorTree;
+        private BehaviorTree[] behaviorTrees;
+        private int currentTree = -1;
 
         // Start is called before the first frame update
         void Awake()
         {
-            behaviorTree = GetComponent<BehaviorTree>();
+            behaviorTrees = GetComponents<BehaviorTree>();
             GameData gameData = GameManager.Instance.GetGameData();
         }
 
@@ -60,6 +61,15 @@ namespace JabberMonkey
             shouldMine = false;
             shouldShock = false;
             return input;
+        }
+
+        public void changeBehaviour(int index)
+        {
+            foreach (BehaviorTree item in behaviorTrees)
+            {
+                item.enabled = false;
+            }
+            behaviorTrees[index].enabled = true;
         }
     }
 }
