@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DebugControllers
   m_EditorClassIdentifier: 
   p1: {fileID: 7672329417856911656, guid: 61c52b49ab6c09e4eab77cb91ee54a6f, type: 3}
-  p2: {fileID: 7672329417856911656, guid: 61c52b49ab6c09e4eab77cb91ee54a6f, type: 3}
+  p2: {fileID: 7672329417856911656, guid: c05183f896e16b442a6c04aae57b118a, type: 3}
