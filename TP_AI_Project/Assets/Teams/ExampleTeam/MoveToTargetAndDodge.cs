@@ -25,8 +25,10 @@ namespace JabberMonkey
 
 		public override TaskStatus OnUpdate()
 		{
-			playerTransform = GameManager.Instance.GetGameData().SpaceShips[1].transform;
-			speed = GameManager.Instance.GetGameData().SpaceShips[1].Velocity;
+			target = blackboard.targetPosition;
+
+			playerTransform = GameManager.Instance.GetGameData().SpaceShips[blackboard.shipIndex].transform;
+			speed = GameManager.Instance.GetGameData().SpaceShips[blackboard.shipIndex].Velocity;
 			currentDistance = (playerTransform.position - target).magnitude;
 
 			//Basic Move
@@ -42,15 +44,25 @@ namespace JabberMonkey
 
 			//Dodge Asteroids
 			RaycastHit2D hit;
-			hit = Physics2D.Raycast(playerTransform.position, playerTransform.right, 1.5f,(1<<12));
-			Debug.DrawLine(playerTransform.position, playerTransform.position + playerTransform.right, Color.green);
+			hit = Physics2D.Raycast(playerTransform.position, blackboard.myShip.Velocity, 1.5f,(1<<12));
+			Debug.DrawLine(playerTransform.position, blackboard.myShip.Position + blackboard.myShip.Velocity, Color.green);
 
 			if(hit)
             {
-				float signhit = (hit.normal.y < 0) ? -1.0f : 1.0f;
-				float normalAngle = Vector2.Angle(Vector2.right,hit.normal) * signhit;
-				Debug.Log(hit.collider.transform.parent.gameObject.name);
-				targetOrientation = normalAngle;
+				RaycastHit2D hitbetweenPlayerAndTarget = Physics2D.Raycast(playerTransform.position, blackboard.targetPosition - playerTransform.position, Vector3.Distance(blackboard.targetPosition, playerTransform.position), (1 << 12));
+
+				if (hitbetweenPlayerAndTarget)
+                {
+					float signhit = (hit.normal.y < 0) ? -1.0f : 1.0f;
+					float normalAngle = Vector2.Angle(Vector2.right, hit.normal) * signhit;
+					Vector2 targetDirectionFromHit = new Vector2(blackboard.targetPosition.x, blackboard.targetPosition.y) - hit.point;
+					float hitTargetDirAngle = Vector2.Angle(targetDirectionFromHit, Vector2.right);
+
+					Debug.Log("Hit Target Angle  : " + hitTargetDirAngle);
+					Debug.Log("AngleDifference : " + Mathf.DeltaAngle(hitTargetDirAngle, normalAngle + 90));
+					targetOrientation = (Mathf.DeltaAngle(hitTargetDirAngle, normalAngle + 90) < 90) ? normalAngle + 90f : normalAngle - 90f;
+				}
+
 				thrust = 0.5f;
             }
             
@@ -60,7 +72,7 @@ namespace JabberMonkey
 			if (currentDistance < arriveDistance.Value)
 				return TaskStatus.Success;
 
-			return TaskStatus.Running;
+			return TaskStatus.Success;
 		}
 
 	}
