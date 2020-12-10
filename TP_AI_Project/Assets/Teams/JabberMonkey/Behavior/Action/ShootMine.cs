@@ -21,6 +21,9 @@ namespace JabberMonkey
 
 		public override TaskStatus OnUpdate()
 		{
+			if (!blackBord.closestMine)
+				return TaskStatus.Failure;
+
 			Vector2 diference = blackBord.closestMine.Position - blackBord.myShip.Position;
 			float sign = (blackBord.closestMine.Position.y < blackBord.myShip.Position.y) ? -1.0f : 1.0f;
 			float orientation = Vector2.Angle(Vector2.right, diference) * sign;
