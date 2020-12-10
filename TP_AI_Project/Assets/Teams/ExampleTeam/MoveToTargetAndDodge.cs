@@ -72,7 +72,7 @@ namespace JabberMonkey
 			if (currentDistance < arriveDistance.Value)
 				return TaskStatus.Success;
 
-			return TaskStatus.Success;
+			return TaskStatus.Running;
 		}
 
 	}
