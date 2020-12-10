@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ExampleTeam
+namespace JabberMonkey
 {
 	public class MathUtils : MonoBehaviour
 	{
