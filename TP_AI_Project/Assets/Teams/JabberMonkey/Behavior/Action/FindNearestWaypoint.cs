@@ -15,13 +15,12 @@ namespace JabberMonkey
 		private BlackBordScipt blackboard;
 		public override void OnStart()
 		{
-			
+			blackboard = GetComponent<BlackBordScipt>();
 		}
 
 		public override TaskStatus OnUpdate()
 		{
 			waypointList.Clear();
-			blackboard = GetComponent<BlackBordScipt>();
 			foreach (WayPoint p in GameManager.Instance.GetGameData().WayPoints)
 			{
 				if (p.Owner != blackboard.shipIndex)
