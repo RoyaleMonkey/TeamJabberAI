@@ -39,6 +39,13 @@ namespace JabberMonkey
 			{
 				return TaskStatus.Failure;
 			}
+			if(Mathf.Abs(intersection.x)>11 || Mathf.Abs(intersection.y) > 6)
+				return TaskStatus.Failure;
+
+			Vector2 direction = intersection - aiShip.Position;
+			if (Physics2D.Raycast(aiShip.Position,direction,direction.magnitude,1<<12))
+				return TaskStatus.Failure;
+
 			Vector2 aiToI = intersection - aiShip.Position;
 			Vector2 enemyToI = intersection - enemyShip.Position;
 			if (Vector2.Dot(aiToI, shootDir) <= 0)
@@ -51,9 +58,9 @@ namespace JabberMonkey
 			_debugCanShootIntersect = canIntersect;
 			_debugIntersection = intersection;
 
-			float timeDiff = bulletTimeToI - enemyTimeToI;
+			float timeDiff = bulletTimeToI - enemyTimeToI; 
 			_debugTimeDiff = timeDiff;
-			if(Mathf.Abs(timeDiff) < ShootTimeTolerance)
+			if(Mathf.Abs(timeDiff) < ShootTimeTolerance && blackBord.enemyHitTimer+bulletTimeToI>1.5)
 				return TaskStatus.Success;
 			else
 				return TaskStatus.Failure;

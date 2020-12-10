@@ -9,6 +9,7 @@ namespace JabberMonkey
 	{
 
 		private BlackBordScipt blackBord;
+		private float lastMagnitude;
 
 		public override void OnAwake()
 		{
@@ -17,17 +18,20 @@ namespace JabberMonkey
 
 		public override void OnStart()
 		{
-
+			lastMagnitude = 0;
 		}
 
 		public override TaskStatus OnUpdate()
 		{
-			if((blackBord.closestMine.Position - blackBord.myShip.Position).magnitude <0.75)
+			if(!blackBord.closestMine)
+				return TaskStatus.Failure;
+			float newMagnitude = (blackBord.closestMine.Position - blackBord.myShip.Position).magnitude;
+			if ( newMagnitude < 1 || lastMagnitude >= newMagnitude)
             {
 				blackBord.shouldShock = true;
 				return TaskStatus.Success;
-            }				
-
+            }
+			lastMagnitude = newMagnitude;
 			return TaskStatus.Running;
 		}
 	}

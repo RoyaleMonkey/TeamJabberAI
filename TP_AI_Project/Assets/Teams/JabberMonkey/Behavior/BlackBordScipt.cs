@@ -8,7 +8,8 @@ namespace JabberMonkey
 {
     public class BlackBordScipt : MonoBehaviour
     {
-
+        [HideInInspector]
+        public float enemyHitTimer = 0;
         [HideInInspector]
         public Vector3 enemyBackPosition;
         [HideInInspector]
@@ -33,6 +34,7 @@ namespace JabberMonkey
         private Animator _anim;
         private BehaviorTree[] behaviorTrees;
         private int currentTree = -1;
+        private int lastEnemyHitCount = 0;
 
         // Start is called before the first frame update
         void Awake()
@@ -74,11 +76,23 @@ namespace JabberMonkey
                 item.enabled = false;
             }
             behaviorTrees[index].enabled = true;
+            currentTree = index;
         }
 
         public void UpdateScoreData()
         {
             _anim.SetInteger("PlayerAdvantage", myShip.Score - GameManager.Instance.GetGameData().SpaceShips[1 - shipIndex].Score);
+        }
+
+        private void CheckEnemyHit(GameData gameData)
+        {
+            if (gameData.SpaceShips[1 - shipIndex].HitCount == lastEnemyHitCount)
+                enemyHitTimer += Time.deltaTime;
+            else
+            {
+                lastEnemyHitCount = gameData.SpaceShips[1 - shipIndex].HitCount;
+                enemyHitTimer = 0;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace JabberMonkey
 	public class MoreThanNMine : Conditional
 	{
 		public int nombreMine;
+		public bool isChasing;
 
 		private BlackBordScipt blackBord;
 
@@ -21,8 +22,11 @@ namespace JabberMonkey
 			int nbMine = 0;
             foreach (Mine item in GameManager.Instance.GetGameData().Mines)
             {
+				if (!isChasing && !item.IsActive)
+					continue;
+
 				float distance = (item.Position - blackBord.closestMine.Position).magnitude;
-				if (distance < 2)
+				if (distance < 1.7)
 				{
 					nbMine++;
 					if(nbMine>nombreMine)

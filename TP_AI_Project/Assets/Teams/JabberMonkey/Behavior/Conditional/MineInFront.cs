@@ -9,7 +9,6 @@ namespace JabberMonkey
 	public class MineInFront : Conditional
 	{
 		public float distanceToCheck = 2;
-		public bool isChasing = false;
 		BlackBordScipt blackBord = null;
 
 		public override void OnAwake()
@@ -21,24 +20,21 @@ namespace JabberMonkey
 		{
 			SpaceShip ship = GameManager.Instance.GetGameData().SpaceShips[blackBord.shipIndex];
 
-			RaycastHit2D hit2D = Physics2D.Raycast(ship.Position, ship.Velocity, distanceToCheck, 1 << 13);
+			Vector3 start = ship.Position + ship.Velocity.normalized * 0.6f;
+
+			RaycastHit2D hit2D = Physics2D.Raycast(start+ship.transform.up * 0.2f, ship.Velocity, distanceToCheck, 1 << 13);
+			Debug.DrawLine(start + ship.transform.up * 0.2f, ship.Position + ship.Velocity);
+            if (!hit2D)
+            {
+				hit2D = Physics2D.Raycast(start + ship.transform.up * -0.2f, ship.Velocity, distanceToCheck, 1 << 13);
+				Debug.DrawLine(start + ship.transform.up * -0.2f, ship.Position + ship.Velocity);
+			}
 			if (hit2D)
 			{
 				Mine mine = hit2D.rigidbody.GetComponent<Mine>();
-				if(!isChasing)
-                {
-					if (mine.IsActive)
-					{
-						blackBord.closestMine = mine;
-						return TaskStatus.Success;
-					}
-				}
-				else
-                {
-					blackBord.closestMine = mine;
-				}
-				
-			}
+				blackBord.closestMine = mine;
+				return TaskStatus.Success;
+            }
 
 			return TaskStatus.Failure;
 		}
