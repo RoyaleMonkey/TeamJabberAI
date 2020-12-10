@@ -30,6 +30,7 @@ namespace JabberMonkey
 
         public Vector3 targetPosition;
 
+        private Animator _anim;
         private BehaviorTree[] behaviorTrees;
         private int currentTree = -1;
 
@@ -38,6 +39,7 @@ namespace JabberMonkey
         {
             behaviorTrees = GetComponents<BehaviorTree>();
             GameData gameData = GameManager.Instance.GetGameData();
+            _anim = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -46,6 +48,8 @@ namespace JabberMonkey
             GameData gameData = GameManager.Instance.GetGameData();
 
             enemyBackPosition = gameData.SpaceShips[1-shipIndex].transform.position + gameData.SpaceShips[0].transform.right * -1;
+
+            UpdateScoreData();
         }
 
         public void Initialize(SpaceShip spaceShip)
@@ -70,6 +74,11 @@ namespace JabberMonkey
                 item.enabled = false;
             }
             behaviorTrees[index].enabled = true;
+        }
+
+        public void UpdateScoreData()
+        {
+            _anim.SetInteger("PlayerAdvantage", myShip.Score - GameManager.Instance.GetGameData().SpaceShips[1 - shipIndex].Score);
         }
     }
 }
