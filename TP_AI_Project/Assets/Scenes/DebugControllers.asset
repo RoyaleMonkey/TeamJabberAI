@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993a622c897b23e4f8b79c0317e16084, type: 3}
   m_Name: DebugControllers
   m_EditorClassIdentifier: 
-  p1: {fileID: 7672329417856911656, guid: 8bfce397172e4b8419656ba7a33ac26c, type: 3}
-  p2: {fileID: 7672329417856911656, guid: 61c52b49ab6c09e4eab77cb91ee54a6f, type: 3}
+  p1: {fileID: 7672329417856911656, guid: 61c52b49ab6c09e4eab77cb91ee54a6f, type: 3}
+  p2: {fileID: 7672329417856911656, guid: 052154512b6c7df45953a9ef170357d9, type: 3}

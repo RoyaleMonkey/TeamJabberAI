@@ -8,7 +8,7 @@ namespace JabberMonkey
 	[TaskCategory("JabberAI")]
 	public class EnergyInfValue : Conditional
 	{
-		public int energyValue;
+		public float energyValue;
 
 		private BlackBordScipt blackBord;
 

@@ -24,8 +24,12 @@ namespace JabberMonkey
 			RaycastHit2D hit2D = Physics2D.Raycast(ship.Position, ship.Velocity, distanceToCheck, 1 << 13);
 			if (hit2D)
 			{
-				blackBord.closestMine = hit2D.rigidbody.GetComponent<Mine>();
-				return TaskStatus.Success;
+				Mine mine = hit2D.rigidbody.GetComponent<Mine>();
+				if(mine.IsActive)
+                {
+					blackBord.closestMine = mine;
+					return TaskStatus.Success;
+				}
 			}
 
 			return TaskStatus.Failure;

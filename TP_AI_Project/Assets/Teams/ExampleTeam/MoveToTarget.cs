@@ -3,7 +3,7 @@ using DoNotModify;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
-namespace Monkey.Tasks
+namespace JabberMonkey
 {
 	public class MoveToTarget : Action
 	{
