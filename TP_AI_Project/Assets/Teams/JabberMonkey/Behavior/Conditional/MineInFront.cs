@@ -8,7 +8,7 @@ namespace JabberMonkey
 	[TaskCategory("JabberAI")]
 	public class MineInFront : Conditional
 	{
-		public float distanceToCheck;
+		public float distanceToCheck = 2;
 
 		BlackBordScipt blackBord = null;
 

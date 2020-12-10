@@ -2,13 +2,17 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using DoNotModify;
+using System.Collections;
 
 namespace JabberMonkey
 {
 	[TaskCategory("JabberAI")]
 	public class ShootEnemy : Action
 	{
-		public float ShootTimeTolerance = 0.2f;
+		public float ShootTimeTolerance = 0.05f;
+		public float cooldown = 0.2f;
+
+		private bool canShoot = true;
 
 		BlackBordScipt blackBord;
 
@@ -28,6 +32,9 @@ namespace JabberMonkey
 
 		public override TaskStatus OnUpdate()
 		{
+			if (!canShoot)
+				return TaskStatus.Failure;
+
 			_debugCanShootIntersect = false;
 
 			GameData gameData = GameManager.Instance.GetGameData();
@@ -67,6 +74,7 @@ namespace JabberMonkey
 			if (Mathf.Abs(timeDiff) < ShootTimeTolerance)
             {
 				blackBord.shouldShoot = true;
+				StartCoroutine(ShootRoutine());
 				return TaskStatus.Success;
 			}
 			else
@@ -87,6 +95,13 @@ namespace JabberMonkey
 				Gizmos.DrawLine(enemyShip.Position, _debugIntersection);
 				Gizmos.DrawSphere(_debugIntersection, Mathf.Clamp(Mathf.Abs(_debugTimeDiff), 0.5f, 0));
 			}
+		}
+
+		private IEnumerator ShootRoutine()
+		{
+			canShoot = false;
+			yield return new WaitForSeconds(cooldown);
+			canShoot = true;
 		}
 	}
 }

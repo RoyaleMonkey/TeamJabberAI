@@ -1,6 +1,7 @@
 using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using System.Collections;
 
 namespace JabberMonkey 
 {
@@ -8,7 +9,9 @@ namespace JabberMonkey
 	public class ShootMine : Action
 	{
 		public float angleMaxOffset;
-		
+		public float cooldown = 0.05f;
+
+		private bool canShoot = true;
 		BlackBordScipt blackBord = null;
 
 		public override void OnAwake()
@@ -21,7 +24,7 @@ namespace JabberMonkey
 
 		public override TaskStatus OnUpdate()
 		{
-			if (!blackBord.closestMine)
+			if (!blackBord.closestMine || !canShoot)
 				return TaskStatus.Failure;
 
 			Vector2 diference = blackBord.closestMine.Position - blackBord.myShip.Position;
@@ -35,9 +38,17 @@ namespace JabberMonkey
 			if(Mathf.Abs(blackBord.myShip.Orientation - orientation)<angleMaxOffset)
             {
 				blackBord.shouldShoot = true;
+				StartCoroutine(ShootRoutine());
 				return TaskStatus.Success;
             }
 			return TaskStatus.Running;
 		}
+
+		private IEnumerator ShootRoutine()
+        {
+			canShoot = false;
+			yield return new WaitForSeconds(cooldown);
+			canShoot = true;
+        }
 	} 
 }
