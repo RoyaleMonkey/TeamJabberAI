@@ -35,7 +35,15 @@ namespace JabberMonkey
 				blackBord.closestMine = mine;
 				return TaskStatus.Success;
             }
-
+			Vector2 forward = ship.transform.right;
+			start = ship.Position + forward * 0.6f;
+			hit2D = Physics2D.Raycast(start , ship.transform.right, distanceToCheck, 1 << 13);
+			if (hit2D)
+			{
+				Mine mine = hit2D.rigidbody.GetComponent<Mine>();
+				blackBord.closestMine = mine;
+				return TaskStatus.Success;
+			}
 			return TaskStatus.Failure;
 		}
 	}
