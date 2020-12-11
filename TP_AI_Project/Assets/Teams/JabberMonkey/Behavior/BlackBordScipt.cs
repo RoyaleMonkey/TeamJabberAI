@@ -28,8 +28,12 @@ namespace JabberMonkey
         public int shipIndex;
         [HideInInspector]
         public SpaceShip myShip;
-
+        [HideInInspector]
         public Vector3 targetPosition;
+
+
+        public int playerAdvantageWanted = 1;
+        public AnimationCurve neutralPointsOverTime;
 
         private Animator _anim;
         private BehaviorTree[] behaviorTrees;
@@ -51,7 +55,8 @@ namespace JabberMonkey
 
             enemyBackPosition = gameData.SpaceShips[1-shipIndex].transform.position + gameData.SpaceShips[0].transform.right * -1;
 
-            UpdateScoreData();
+            CheckEnemyHit(GameManager.Instance.GetGameData());
+            UpdateStateMachine();
         }
 
         public void Initialize(SpaceShip spaceShip)
@@ -79,19 +84,35 @@ namespace JabberMonkey
             currentTree = index;
         }
 
-        public void UpdateScoreData()
+        public void UpdateStateMachine()
         {
-            _anim.SetInteger("PlayerAdvantage", myShip.Score - GameManager.Instance.GetGameData().SpaceShips[1 - shipIndex].Score);
+            int playerAdvantage = myShip.Score - GameManager.Instance.GetGameData().SpaceShips[1 - shipIndex].Score;
+            int neutralPoints = 0;
+            foreach(WayPoint p in GameManager.Instance.GetGameData().WayPoints)
+            {
+                if (p.Owner == -1)
+                    neutralPoints++;
+            }
+
+            
+            _anim.SetInteger("PlayerAdvantage", playerAdvantage);
+            _anim.SetInteger("NeutralPointsLeft", neutralPoints);
+            _anim.SetFloat("EnemyDist", Vector2.Distance(myShip.Position, GameManager.Instance.GetGameData().SpaceShips[1 - shipIndex].Position));
         }
 
         private void CheckEnemyHit(GameData gameData)
         {
             if (gameData.SpaceShips[1 - shipIndex].HitCount == lastEnemyHitCount)
+            {
                 enemyHitTimer += Time.deltaTime;
+                if(enemyHitTimer >= 2.5f)
+                    _anim.SetBool("StopChase", false);
+            }
             else
             {
                 lastEnemyHitCount = gameData.SpaceShips[1 - shipIndex].HitCount;
                 enemyHitTimer = 0;
+                _anim.SetBool("StopChase", true);
             }
         }
     }

@@ -23,7 +23,7 @@ namespace JabberMonkey
 			waypointList.Clear();
 			foreach (WayPoint p in GameManager.Instance.GetGameData().WayPoints)
 			{
-				if (p.Owner != blackboard.shipIndex)
+				if (p.Owner != blackboard.shipIndex && p.Position != Vector2.zero)
 				{
 					waypointList.Add(p);
 				}
@@ -44,13 +44,13 @@ namespace JabberMonkey
 
 		public int SortWaypointsWithCurve(WayPoint a, WayPoint b)
         {
-			float DistanceA = Vector3.Distance(a.Position, blackboard.myShip.transform.position);
-			float DistanceB = Vector3.Distance(b.Position, blackboard.myShip.transform.position);
-			if(a.Owner == 1 - blackboard.shipIndex)
+			float DistanceA = Vector3.Distance(a.Position, blackboard.myShip.transform.position + new Vector3(blackboard.myShip.Velocity.x, blackboard.myShip.Velocity.y,0));
+			float DistanceB = Vector3.Distance(b.Position, blackboard.myShip.transform.position + new Vector3(blackboard.myShip.Velocity.x, blackboard.myShip.Velocity.y, 0));
+			if(a.Owner == -1)
             {
 				DistanceA *= enemyWaypointPriority.Evaluate(DistanceA);
             }
-			if (b.Owner == 1 - blackboard.shipIndex)
+			if (b.Owner == -1)
 			{
 				DistanceB *= enemyWaypointPriority.Evaluate(DistanceB);
 			}

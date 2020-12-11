@@ -9,7 +9,6 @@ namespace JabberMonkey
 	{
 
 		BlackBordScipt blackBord = null;
-
         public override void OnAwake()
         {
 			blackBord = GetComponent<BlackBordScipt>();
@@ -17,7 +16,7 @@ namespace JabberMonkey
 
         public override void OnStart()
 		{
-			blackBord.shouldMine = true;
+				blackBord.shouldMine = true;
 		}
 
 		public override TaskStatus OnUpdate()

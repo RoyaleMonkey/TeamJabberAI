@@ -31,23 +31,23 @@ namespace JabberMonkey
 			speed = GameManager.Instance.GetGameData().SpaceShips[blackboard.shipIndex].Velocity;
 			currentDistance = (playerTransform.position - target).magnitude;
 
-			//Basic Move
-			//Vector3 diference = target - playerTransform.position;
-			//float sign = (target.y < playerTransform.position.y) ? -1.0f : 1.0f;
-			//targetOrientation = Vector2.Angle(Vector2.right, diference) * sign;
-			//thrust = currentDistance;
-			//float velocityAngle = Vector2.SignedAngle(diference, blackboard.myShip.Velocity);
-			//Debug.Log("velocity angle: "+ velocityAngle+" target angle: "+ targetOrientation);
-			//targetOrientation -= Mathf.Lerp(velocityAngle, 0, currentDistance/2 );
+            //Basic Move
+            //Vector3 diference = target - playerTransform.position;
+            //float sign = (target.y < playerTransform.position.y) ? -1.0f : 1.0f;
+            //targetOrientation = Vector2.Angle(Vector2.right, diference) * sign;
+            //thrust = currentDistance;
+            //float velocityAngle = Vector2.SignedAngle(diference, blackboard.myShip.Velocity);
+            //Debug.Log("velocity angle: " + velocityAngle + " target angle: " + targetOrientation);
+            //targetOrientation -= Mathf.Lerp(velocityAngle, 0, currentDistance / 2);
 
-			//Methode Fabien
-			float velocityOrientation = Vector2.SignedAngle(Vector2.right, blackboard.myShip.Velocity);
-			float diffVelocityToTarget = Vector2.SignedAngle(blackboard.myShip.Velocity, target - playerTransform.position);
-			float diffIncreased = diffVelocityToTarget * 1.5f;
-			diffIncreased = Mathf.Clamp(diffIncreased, -179, 179);
-			targetOrientation = velocityOrientation + diffIncreased;
+            //Methode Fabien
+            float velocityOrientation = Vector2.SignedAngle(Vector2.right, blackboard.myShip.Velocity);
+            float diffVelocityToTarget = Vector2.SignedAngle(blackboard.myShip.Velocity, target - playerTransform.position);
+            float diffIncreased = diffVelocityToTarget * 1.5f;
+            diffIncreased = Mathf.Clamp(diffIncreased, -179, 179);
+            targetOrientation = velocityOrientation + diffIncreased;
 
-			thrust = currentDistance;
+            thrust = currentDistance;
 			//Dodge Asteroids
 			RaycastHit2D hit;
 			hit = Physics2D.Raycast(playerTransform.position, blackboard.myShip.Velocity, 1.5f,(1<<12));
